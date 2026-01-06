@@ -11,6 +11,15 @@ const app = express();
 
 app.use(express.json());
 
+// Root route
+app.get('/', (req, res) => {
+  res.status(200).json({ 
+    message: 'Welcome to the API!',
+    status: 'success',
+    documentation_url: 'coming soon' // Placeholder for future docs
+  });
+});
+
 app.use('/api/auth', authRoutes);
 
 const port = process.env.PORT || 3000;
