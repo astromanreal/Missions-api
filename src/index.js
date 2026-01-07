@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors'; // Import the cors package
 import connectDB from './config/database.js';
 import authRoutes from './routes/auth.js';
 import missionRoutes from './routes/missions.js';
@@ -9,6 +10,9 @@ dotenv.config({ quiet: true });
 connectDB();
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 app.use(express.json());
 
