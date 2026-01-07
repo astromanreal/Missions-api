@@ -232,4 +232,40 @@ const resetPassword = async (req, res) => {
   }
 };
 
-export { register, login, getMe, verifyOTP, getUser, logout, forgotPassword, resetPassword };
+const updateMe = async (req, res) => {
+  const { username, name, bio } = req.body;
+  const userId = req.user.id;
+
+  try {
+    // Check if the new username is already taken by another user
+    if (username) {
+      const existingUser = await User.findOne({ username, _id: { $ne: userId } });
+      if (existingUser) {
+        return res.status(400).json({ error: 'This username is already taken. Please choose another.' });
+      }
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    // Update the fields
+    user.username = username || user.username;
+    user.name = name || user.name;
+    user.bio = bio || user.bio;
+
+    await user.save();
+
+    // Return the updated user, excluding the password
+    const updatedUser = await User.findById(userId).select('-password');
+    res.json(updatedUser);
+
+  } catch (err) {
+    console.error('UpdateMe error:', err.message);
+    res.status(500).json({ error: 'An unexpected server error occurred while updating your profile.' });
+  }
+};
+
+export { register, login, getMe, verifyOTP, getUser, logout, forgotPassword, resetPassword, updateMe };

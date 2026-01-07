@@ -13,7 +13,6 @@ const sendEmail = async (options) => {
   let htmlBody;
   let textBody;
 
-  // Check the type of email to send and generate the appropriate body
   if (options.type === 'welcome') {
     const { username, websiteLink } = options.context;
     htmlBody = `
@@ -22,39 +21,48 @@ const sendEmail = async (options) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Welcome Aboard!</title>
     </head>
-    <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <body style="font-family: Arial, sans-serif; background-color: #0c1427; color: #e0e0e0; margin: 0; padding: 20px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: auto; background-color: #162447; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.4); border: 1px solid #334a8a;">
+            <!-- Header with a space-themed icon -->
             <tr>
-                <td align="center" style="padding: 40px 20px; border-bottom: 1px solid #eeeeee;">
-                    <h1 style="color: #333333; margin: 0; font-size: 24px;">Welcome to the Crew, ${username}!</h1>
+                <td align="center" style="padding: 40px 20px 20px 20px;">
+                    <h1 style="color: #ffffff; margin: 0; font-size: 48px; font-weight: 700;">🚀</h1>
                 </td>
             </tr>
             <tr>
-                <td style="padding: 30px 40px; color: #555555; font-size: 16px; line-height: 1.6;">
-                    <p>Hello ${username},</p>
-                    <p>Your account has been successfully verified. You are now an official member of the <strong>Space Exploration</strong> team!</p>
-                    <p>Your journey into the cosmos begins now. You can log in and start exploring right away:</p>
+                <td align="center" style="padding: 0 20px 20px 20px;">
+                     <h2 style="color: #ffffff; margin: 0; font-size: 26px; font-weight: bold;">Welcome Aboard, ${username}!</h2>
                 </td>
             </tr>
+            <!-- Main Content -->
             <tr>
-                <td align="center" style="padding: 10px 0 30px 0;">
-                    <a href="${websiteLink}" style="background-color: #6f42c1; color: #ffffff; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Go to Your Dashboard</a>
+                <td style="padding: 20px 40px 30px 40px; color: #c0c0c0; font-size: 16px; line-height: 1.7; text-align: center;">
+                    <p style="margin: 0;">Your account is verified and your mission is ready to begin. You are now an official member of the <strong>Space Exploration</strong> crew.</p>
+                    <p style="margin-top: 15px;">Prepare for liftoff and start discovering the cosmos with us.</p>
                 </td>
             </tr>
+            <!-- Call to Action Button -->
             <tr>
-                <td align="center" style="padding: 20px; font-size: 12px; color: #aaaaaa; background-color: #f8f9fa; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
-                    <p style="margin:0;">&copy; ${new Date().getFullYear()} Space Exploration. All rights reserved.</p>
+                <td align="center" style="padding: 10px 0 40px 0;">
+                    <a href="${websiteLink}" style="background-color: #6f42c1; color: #ffffff; padding: 16px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 8px rgba(111, 66, 193, 0.3);">Launch Dashboard</a>
+                </td>
+            </tr>
+            <!-- Footer -->
+            <tr>
+                <td align="center" style="padding: 20px; font-size: 12px; color: #7f8c8d; border-top: 1px solid #334a8a;">
+                    <p style="margin:0;">&copy; ${new Date().getFullYear()} Space Exploration. All Rights Reserved.</p>
                 </td>
             </tr>
         </table>
     </body>
     </html>
     `;
-    textBody = `Welcome, ${username}! Your account is verified. Start exploring at ${websiteLink}`;
+    textBody = `Welcome aboard, ${username}! Your account is verified and your mission is ready to begin. Launch your dashboard here: ${websiteLink}`;
 
   } else { // Default to the OTP email template
-    const otp = options.message; // Keep supporting the old `message` property for OTPs
+    const otp = options.message;
     htmlBody = `
     <!DOCTYPE html>
     <html lang="en">
@@ -62,36 +70,30 @@ const sendEmail = async (options) => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px;">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f9f9f9;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 500px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <tr>
-                <td align="center" style="padding: 40px 20px; border-bottom: 1px solid #eeeeee;">
-                    <h1 style="color: #333333; margin: 0; font-size: 24px;">${options.subject}</h1>
+                <td align="center" style="padding: 30px 20px;">
+                    <h1 style="color: #333; margin: 0; font-size: 22px;">${options.subject}</h1>
                 </td>
             </tr>
             <tr>
-                <td style="padding: 30px 40px; color: #555555; font-size: 16px; line-height: 1.6;">
-                    <p>Hello,</p>
-                    <p>Please use the following code to complete your action. This code is valid for a limited time.</p>
+                <td align="center" style="padding: 0 20px 20px 20px;">
+                    <p style="color: #555; font-size: 16px;">Your one-time verification code is:</p>
                 </td>
             </tr>
             <tr>
-                <td align="center" style="padding: 10px 0 30px 0;">
-                    <div style="background-color: #f0f0f0; border-radius: 5px; padding: 15px 25px; display: inline-block;">
-                        <h2 style="color: #333; font-size: 32px; font-weight: bold; margin: 0; letter-spacing: 4px;">
+                <td align="center" style="padding-bottom: 30px;">
+                    <div style="background-color: #f0f0f0; border-radius: 5px; padding: 12px 20px; display: inline-block;">
+                        <h2 style="color: #333; font-size: 30px; font-weight: bold; margin: 0; letter-spacing: 3px;">
                             ${otp}
                         </h2>
                     </div>
                 </td>
             </tr>
             <tr>
-                <td style="padding: 0 40px 30px 40px; color: #888888; font-size: 14px; line-height: 1.6;">
-                   <p>If you did not request this, you can safely ignore this email.</p>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" style="padding: 20px; font-size: 12px; color: #aaaaaa; background-color: #f8f9fa; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
-                    <p style="margin:0;">&copy; ${new Date().getFullYear()} Space Exploration. All rights reserved.</p>
+                <td align="center" style="padding: 0 20px 30px 20px;">
+                   <p style="font-size: 14px; color: #888;">If you did not request this code, you can safely ignore this email.</p>
                 </td>
             </tr>
         </table>
