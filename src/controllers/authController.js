@@ -1,27 +1,39 @@
-import User from "../models/User.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import sendEmail from "../utils/sendEmail.js";
+import User from '../models/User.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import sendEmail from '../utils/sendEmail.js';
+import { spaceUsernames } from '../utils/usernames.js';
+
+// Helper function to generate a unique username
+const generateUniqueUsername = async () => {
+    let username;
+    let isUnique = false;
+    while (!isUnique) {
+        const baseName = spaceUsernames[Math.floor(Math.random() * spaceUsernames.length)];
+        const randomNumber = Math.floor(100 + Math.random() * 900);
+        username = `${baseName}${randomNumber}`;
+        const existingUser = await User.findOne({ username });
+        if (!existingUser) {
+            isUnique = true;
+        }
+    }
+    return username;
+};
 
 const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ msg: "User already exists" });
+      return res.status(400).json({ error: 'An account with this email already exists.' });
     }
 
+    const username = await generateUniqueUsername();
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-    user = new User({
-      username,
-      email,
-      password,
-      otp,
-      otpExpires,
-    });
+    user = new User({ username, email, password, otp, otpExpires });
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
@@ -31,17 +43,18 @@ const register = async (req, res) => {
     try {
       await sendEmail({
         email: user.email,
-        subject: "Email Verification",
-        message: `Your OTP for verification is: ${otp}`,
+        subject: 'Welcome! Please Verify Your Email',
+        message: otp,
       });
-      res.status(200).json({ msg: "OTP sent to email" });
+      res.status(200).json({ msg: 'OTP sent to email. Welcome aboard!' });
     } catch (err) {
-      console.error(err.message);
-      return res.status(500).send("Error sending email");
+      console.error('Email sending error:', err.message);
+      return res.status(500).json({ error: 'User registered, but failed to send verification email. Please try again.' });
     }
+
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
+    console.error('Registration server error:', err.message);
+    res.status(500).json({ error: 'An unexpected server error occurred during registration.' });
   }
 };
 
@@ -51,11 +64,11 @@ const verifyOTP = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: "User not found" });
+      return res.status(404).json({ error: 'No user found for this email. Please register first.' });
     }
 
     if (user.otp !== otp || user.otpExpires < Date.now()) {
-      return res.status(400).json({ msg: "Invalid or expired OTP" });
+      return res.status(400).json({ error: 'The OTP you entered is invalid or has expired.' });
     }
 
     user.isVerified = true;
@@ -64,24 +77,15 @@ const verifyOTP = async (req, res) => {
 
     await user.save();
 
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
+    const payload = { user: { id: user.id } };
+    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+      if (err) throw err;
+      res.json({ token });
+    });
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
+    console.error('OTP verification error:', err.message);
+    res.status(500).json({ error: 'An unexpected server error occurred during OTP verification.' });
   }
 };
 
@@ -91,73 +95,58 @@ const login = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: "Invalid credentials" });
+      return res.status(400).json({ error: 'The email or password you entered is incorrect.' });
     }
 
     if (!user.isVerified) {
-      return res.status(400).json({ msg: "Please verify your email to login" });
+      return res.status(403).json({ error: 'This account is not verified. Please check your email for the verification OTP.' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: "Invalid credentials" });
+      return res.status(400).json({ error: 'The email or password you entered is incorrect.' });
     }
 
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
+    const payload = { user: { id: user.id } };
+    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+      if (err) throw err;
+      res.json({ token });
+    });
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
+    console.error('Login error:', err.message);
+    res.status(500).json({ error: 'An unexpected server error occurred during login.' });
   }
 };
 
 const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
+    const user = await User.findById(req.user.id).select('-password');
     res.json(user);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
+    console.error('GetMe error:', err.message);
+    res.status(500).json({ error: 'An unexpected server error occurred while fetching your profile.' });
   }
 };
 
-// Get user profile by ID
 const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select(
-      "-password -otp -otpExpires"
-    );
+    const user = await User.findById(req.params.id).select('-password -otp -otpExpires');
     if (!user) {
-      return res.status(404).json({ msg: "User not found" });
+      return res.status(404).json({ error: 'This user profile could not be found.' });
     }
     res.json(user);
   } catch (err) {
-    console.error(err.message);
-    if (err.kind === "ObjectId") {
-      return res.status(404).json({ msg: "User not found" });
+    console.error('GetUser error:', err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ error: 'This user profile could not be found.' });
     }
-    res.status(500).send("Server error");
+    res.status(500).json({ error: 'An unexpected server error occurred while fetching the user profile.' });
   }
 };
 
-// Logout user
 const logout = (req, res) => {
-  // On the client-side, the token should be deleted.
-  // This server-side endpoint is for acknowledging the logout.
-  res.json({ msg: "User logged out successfully" });
+  res.json({ msg: 'User logged out successfully' });
 };
 
 const forgotPassword = async (req, res) => {
@@ -166,11 +155,11 @@ const forgotPassword = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: "User not found" });
+      return res.status(404).json({ error: 'No account is associated with this email address.' });
     }
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
 
     user.otp = otp;
     user.otpExpires = otpExpires;
@@ -179,17 +168,18 @@ const forgotPassword = async (req, res) => {
     try {
       await sendEmail({
         email: user.email,
-        subject: "Password Reset",
-        message: `Your OTP for password reset is: ${otp}`,
+        subject: 'Password Reset Request',
+        message: otp,
       });
-      res.status(200).json({ msg: "OTP sent to email" });
+      res.status(200).json({ msg: 'OTP for password reset has been sent to your email.' });
     } catch (err) {
       console.error(err.message);
-      return res.status(500).send("Error sending email");
+      return res.status(500).json({ error: 'Failed to send password reset email. Please try again later.' });
     }
+
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server error");
+    res.status(500).json({ error: 'An unexpected server error occurred while processing your request.' });
   }
 };
 
@@ -199,11 +189,11 @@ const resetPassword = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: "User not found" });
+      return res.status(404).json({ error: 'No account is associated with this email address.' });
     }
 
     if (user.otp !== otp || user.otpExpires < Date.now()) {
-      return res.status(400).json({ msg: "Invalid or expired OTP" });
+      return res.status(400).json({ error: 'The OTP you entered is invalid or has expired.' });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -213,20 +203,12 @@ const resetPassword = async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ msg: "Password reset successful" });
+    res.status(200).json({ msg: 'Your password has been reset successfully.' });
+
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Server error");
+    res.status(500).json({ error: 'An unexpected server error occurred while resetting your password.' });
   }
 };
 
-export {
-  register,
-  login,
-  getMe,
-  verifyOTP,
-  getUser,
-  logout,
-  forgotPassword,
-  resetPassword,
-};
+export { register, login, getMe, verifyOTP, getUser, logout, forgotPassword, resetPassword };
