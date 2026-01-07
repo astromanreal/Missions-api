@@ -1,15 +1,18 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors'; // Import the cors package
 import connectDB from './config/database.js';
 import authRoutes from './routes/auth.js';
 import missionRoutes from './routes/missions.js';
-import userRoutes from './routes/users.js';
 
 dotenv.config({ quiet: true });
 
 connectDB();
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 app.use(express.json());
 
@@ -24,7 +27,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/v1/missions', missionRoutes);
-app.use('/api/v1/users', userRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server running on port ${port}`));

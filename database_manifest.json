@@ -1,101 +1,54 @@
 {
-  "generatedAt": "2026-01-08T15:00:00.000Z",
-  "missionCount": 19,
+  "generatedAt": "2026-01-07T11:17:00.032Z",
+  "missionCount": 8,
   "missions": [
     {
       "missionId": "cassini_huygens",
       "missionName": "Cassini–Huygens",
-      "missionStatus": "completed"
+      "missionStatus": "completed",
+      "_id": "695e409aeef08e4d2ed6da5e"
     },
     {
       "missionId": "hubble_space_telescope",
       "missionName": "Hubble Space Telescope",
-      "missionStatus": "ongoing"
+      "missionStatus": "ongoing",
+      "_id": "695e409aeef08e4d2ed6da5f"
     },
     {
       "missionId": "spacex_starlink",
       "missionName": "Starlink",
-      "missionStatus": "ongoing"
+      "missionStatus": "ongoing",
+      "_id": "695e409aeef08e4d2ed6da62"
     },
     {
       "missionId": "voyager_1",
       "missionName": "Voyager 1",
-      "missionStatus": "ongoing"
+      "missionStatus": "ongoing",
+      "_id": "695e35f21f643a4cd7621068"
     },
     {
       "missionId": "voyager_2",
       "missionName": "Voyager 2",
-      "missionStatus": "ongoing"
+      "missionStatus": "ongoing",
+      "_id": "695e409aeef08e4d2ed6da64"
     },
     {
       "missionId": "apollo_11",
       "missionName": "Apollo 11",
-      "missionStatus": "completed"
+      "missionStatus": "completed",
+      "_id": "695e3892417d837ad2b5678b"
     },
     {
       "missionId": "new_horizons",
       "missionName": "New Horizons",
-      "missionStatus": "ongoing"
+      "missionStatus": "ongoing",
+      "_id": "695e409aeef08e4d2ed6da61"
     },
     {
       "missionId": "iss",
       "missionName": "International Space Station",
-      "missionStatus": "ongoing"
-    },
-    {
-      "missionId": "perseverance_rover",
-      "missionName": "Perseverance Rover",
-      "missionStatus": "ongoing"
-    },
-    {
-      "missionId": "james_webb",
-      "missionName": "James Webb Space Telescope",
-      "missionStatus": "ongoing"
-    },
-    {
-      "missionId": "curiosity_rover",
-      "missionName": "Curiosity Rover (MSL)",
-      "missionStatus": "ongoing"
-    },
-    {
-      "missionId": "mars_reconnaissance_orbiter",
-      "missionName": "Mars Reconnaissance Orbiter (MRO)",
-      "missionStatus": "ongoing"
-    },
-    {
-      "missionId": "mars_express",
-      "missionName": "Mars Express",
-      "missionStatus": "ongoing"
-    },
-    {
-      "missionId": "chandrayaan_1",
-      "missionName": "Chandrayaan-1",
-      "missionStatus": "completed"
-    },
-    {
-      "missionId": "chandrayaan_2",
-      "missionName": "Chandrayaan-2",
-      "missionStatus": "completed"
-    },
-    {
-      "missionId": "chandrayaan_3",
-      "missionName": "Chandrayaan-3",
-      "missionStatus": "completed"
-    },
-    {
-      "missionId": "mars_orbiter_mission",
-      "missionName": "Mars Orbiter Mission (Mangalyaan)",
-      "missionStatus": "completed"
-    },
-    {
-      "missionId": "luna_25",
-      "missionName": "Luna 25",
-      "missionStatus": "failed"
-    },
-    {
-      "missionId": "luna_2",
-      "missionName": "Luna 2",
-      "missionStatus": "completed"
+      "missionStatus": "ongoing",
+      "_id": "695e409aeef08e4d2ed6da60"
     }
   ]
 }

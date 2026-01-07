@@ -34,10 +34,6 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  trackedMissions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Mission'
-  }]
 });
 
 const User = mongoose.model('User', UserSchema);
