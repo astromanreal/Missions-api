@@ -1,0 +1,46 @@
+{
+    "missionId": "cassini_huygens",
+    "missionName": "Cassini–Huygens",
+    "missionType": "Orbiter & Lander",
+    "category": ["Planetary Exploration", "Scientific Research"],
+    "agency": {
+      "name": "NASA / ESA / ASI",
+      "country": "International",
+      "organizationType": "international"
+    },
+    "launch": {
+      "launchDate": "1997-10-15T08:43:00.000Z",
+      "launchVehicle": "Titan IVB/Centaur",
+      "launchSite": "Cape Canaveral LC-40",
+      "launchProvider": "NASA"
+    },
+    "missionStatus": "completed",
+    "missionTimeline": {
+      "startDate": "1997-10-15T00:00:00.000Z",
+      "endDate": "2017-09-15T00:00:00.000Z"
+    },
+    "destination": "Saturn",
+    "spacecraft": {
+      "name": "Cassini Orbiter",
+      "type": "probe",
+      "manufacturer": "Jet Propulsion Laboratory",
+      "massKg": 5712,
+      "powerSource": "nuclear"
+    },
+    "crew": { "isCrewed": false, "members": [] },
+    "objectives": [
+      "Study Saturn, its rings and moons",
+      "Deploy Huygens probe on Titan"
+    ],
+    "payloads": [],
+    "orbitDetails": { "orbitType": "interplanetary" },
+    "outcome": {
+      "success": true,
+      "summary": "Revolutionized understanding of Saturn and discovered subsurface oceans on Enceladus."
+    },
+    "media": {
+      "images": [],
+      "videos": [],
+      "officialWebsite": "https://solarsystem.nasa.gov/missions/cassini/overview/"
+    }
+  }

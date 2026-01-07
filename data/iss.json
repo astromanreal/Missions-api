@@ -1,0 +1,43 @@
+{
+    "missionId": "iss",
+    "missionName": "International Space Station",
+    "missionType": "Space Station",
+    "category": ["Human Spaceflight", "Space Station", "Scientific Research"],
+    "agency": {
+      "name": "NASA / Roscosmos / ESA / JAXA / CSA",
+      "country": "International",
+      "organizationType": "international"
+    },
+    "launch": {
+      "launchDate": "1998-11-20T06:40:00.000Z",
+      "launchVehicle": "Proton-K",
+      "launchSite": "Baikonur Cosmodrome",
+      "launchProvider": "Roscosmos"
+    },
+    "missionStatus": "ongoing",
+    "missionTimeline": { "startDate": "1998-11-20T00:00:00.000Z" },
+    "destination": "Low Earth Orbit (LEO)",
+    "spacecraft": {
+      "name": "ISS",
+      "type": "crewed",
+      "manufacturer": "International",
+      "massKg": 419725,
+      "powerSource": "solar"
+    },
+    "crew": { "isCrewed": true, "members": [] },
+    "objectives": [
+      "Long-duration human spaceflight research",
+      "Microgravity experiments"
+    ],
+    "payloads": [],
+    "orbitDetails": { "orbitType": "LEO" },
+    "outcome": {
+      "success": true,
+      "summary": "Longest continuously inhabited human-made structure in space."
+    },
+    "media": {
+      "images": [],
+      "videos": [],
+      "officialWebsite": "https://www.nasa.gov/mission/international-space-station/"
+    }
+  }

@@ -1,0 +1,40 @@
+{
+    "missionId": "spacex_starlink",
+    "missionName": "Starlink",
+    "missionType": "Satellite Constellation",
+    "category": ["Communication", "Commercial"],
+    "agency": {
+      "name": "SpaceX",
+      "country": "USA",
+      "organizationType": "private"
+    },
+    "launch": {
+      "launchDate": "2019-05-24T02:30:00.000Z",
+      "launchVehicle": "Falcon 9",
+      "launchSite": "Cape Canaveral SLC-40",
+      "launchProvider": "SpaceX"
+    },
+    "missionStatus": "ongoing",
+    "missionTimeline": { "startDate": "2019-05-24T00:00:00.000Z" },
+    "destination": "Low Earth Orbit (LEO)",
+    "spacecraft": {
+      "name": "Starlink Satellites",
+      "type": "satellite",
+      "manufacturer": "SpaceX",
+      "massKg": 260,
+      "powerSource": "solar"
+    },
+    "crew": { "isCrewed": false, "members": [] },
+    "objectives": ["Provide global satellite internet"],
+    "payloads": [],
+    "orbitDetails": { "orbitType": "LEO" },
+    "outcome": {
+      "success": true,
+      "summary": "Largest satellite constellation ever deployed."
+    },
+    "media": {
+      "images": [],
+      "videos": [],
+      "officialWebsite": "https://www.starlink.com/"
+    }
+  }

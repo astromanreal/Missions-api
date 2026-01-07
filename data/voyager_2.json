@@ -1,0 +1,56 @@
+{
+  "missionId": "voyager_2",
+  "missionName": "Voyager 2",
+  "missionType": "Space Probe",
+  "category": ["Deep Space & Astronomy", "Planetary Science"],
+  "agency": {
+    "name": "NASA",
+    "country": "USA",
+    "organizationType": "government"
+  },
+  "launch": {
+    "launchDate": "1977-08-20T14:29:00.000Z",
+    "launchVehicle": "Titan IIIE",
+    "launchSite": "Cape Canaveral",
+    "launchProvider": "NASA"
+  },
+  "missionStatus": "ongoing",
+  "missionTimeline": { "startDate": "1977-08-20T00:00:00.000Z" },
+  "destination": "Interstellar Space",
+  "spacecraft": {
+    "name": "Voyager 2",
+    "type": "probe",
+    "manufacturer": "Jet Propulsion Laboratory (JPL)",
+    "massKg": 721.9,
+    "powerSource": "nuclear"
+  },
+  "crew": { "isCrewed": false, "members": [] },
+  "objectives": [
+    "Study the outer planets of the solar system: Jupiter, Saturn, Uranus, and Neptune.",
+    "Explore the outer limits of the Sun's magnetic field and the outward flow of solar wind.",
+    "Search for the heliopause boundary, the outer limit of the heliosphere.",
+    "Continue to provide data on interstellar space."
+  ],
+  "payloads": [
+    {
+      "name": "Imaging Science System (ISS)",
+      "type": "instrument",
+      "purpose": "To capture images of the planets and their moons."
+    },
+    {
+      "name": "Golden Record",
+      "type": "cargo",
+      "purpose": "A phonograph record containing sounds and images selected to portray the diversity of life and culture on Earth."
+    }
+  ],
+  "orbitDetails": { "orbitType": "interplanetary" },
+  "outcome": {
+    "success": true,
+    "summary": "Voyager 2 is the only spacecraft to have visited all four of the outer planets, providing invaluable data and images. It is now exploring interstellar space."
+  },
+  "media": {
+    "images": [],
+    "videos": [],
+    "officialWebsite": "https://www.nasa.gov/mission_pages/voyager/main/index.html"
+  }
+}

@@ -7,13 +7,17 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "data:import": "node seeder.js -i",
+    "data:destroy": "node seeder.js -d",
+    "data:upsert": "node seeder.js -u",
+    "data:manifest": "node db_manifest.js"
   },
   "author": "Google LLC",
   "license": "Apache-2.0",
   "dependencies": {
     "bcryptjs": "^3.0.3",
-    "dotenv": "^17.2.3",
+    "colors": "^1.4.0",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.2",

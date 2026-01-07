@@ -1,0 +1,57 @@
+{
+    "_id": "695e35f21f643a4cd7621068",
+    "missionId": "voyager_1",
+    "missionName": "Voyager 1",
+    "missionType": "Flyby",
+    "category": ["Planetary Exploration", "Deep Space & Astronomy", "Scientific Research"],
+    "agency": {
+      "name": "NASA",
+      "country": "USA",
+      "organizationType": "government"
+    },
+    "launch": {
+      "launchDate": "1977-09-05T12:56:01.000Z",
+      "launchVehicle": "Titan IIIE-Centaur",
+      "launchSite": "Cape Canaveral Air Force Station Launch Complex 41",
+      "launchProvider": "NASA / JPL"
+    },
+    "missionStatus": "ongoing",
+    "missionTimeline": { "startDate": "1977-09-05T00:00:00.000Z" },
+    "destination": "Interstellar Space",
+    "spacecraft": {
+      "name": "Voyager 1",
+      "type": "probe",
+      "manufacturer": "Jet Propulsion Laboratory",
+      "massKg": 721.9,
+      "powerSource": "nuclear"
+    },
+    "crew": { "isCrewed": false, "members": [] },
+    "objectives": [
+      "Perform close flybys of Jupiter and Saturn",
+      "Study the outer reaches of the solar system",
+      "Measure heliosphere boundary and interstellar medium",
+      "Transmit scientific data back to Earth"
+    ],
+    "payloads": [
+      {
+        "name": "Imaging Science System",
+        "type": "instrument",
+        "purpose": "Photography of planets and moons"
+      },
+      {
+        "name": "Golden Record",
+        "type": "instrument",
+        "purpose": "A message from humanity to the cosmos"
+      }
+    ],
+    "orbitDetails": { "orbitType": "interplanetary" },
+    "outcome": {
+      "success": true,
+      "summary": "Voyager 1 successfully completed its primary flybys of Jupiter and Saturn, and became the first spacecraft to enter interstellar space, returning invaluable data about the heliopause and beyond."
+    },
+    "media": {
+      "images": ["https://solarsystem.nasa.gov/system/content_pages/main_images/1023_voyager_main.jpg"],
+      "videos": ["https://www.youtube.com/watch?v=1rB58r132v4"],
+      "officialWebsite": "https://solarsystem.nasa.gov/missions/voyager-1/in-depth/"
+    }
+  }

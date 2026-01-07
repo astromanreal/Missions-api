@@ -1,0 +1,54 @@
+{
+    "_id": "695e3892417d837ad2b5678b",
+    "missionId": "apollo_11",
+    "missionName": "Apollo 11",
+    "missionType": "Crewed Lunar Landing",
+    "category": ["Human Spaceflight", "Planetary Exploration", "Scientific Research"],
+    "agency": {
+      "name": "NASA",
+      "country": "USA",
+      "organizationType": "government"
+    },
+    "launch": {
+      "launchDate": "1969-07-16T13:32:00.000Z",
+      "launchVehicle": "Saturn V",
+      "launchSite": "Kennedy Space Center LC-39A",
+      "launchProvider": "NASA"
+    },
+    "missionStatus": "completed",
+    "missionTimeline": {
+      "startDate": "1969-07-16T00:00:00.000Z",
+      "endDate": "1969-07-24T00:00:00.000Z"
+    },
+    "destination": "Moon",
+    "spacecraft": {
+      "name": "Apollo Command/Service Module",
+      "type": "crewed",
+      "manufacturer": "North American Aviation",
+      "massKg": 28801,
+      "powerSource": "battery"
+    },
+    "crew": {
+      "isCrewed": true,
+      "members": [
+        { "name": "Neil Armstrong", "role": "Commander", "nationality": "USA" },
+        { "name": "Buzz Aldrin", "role": "Lunar Module Pilot", "nationality": "USA" },
+        { "name": "Michael Collins", "role": "Command Module Pilot", "nationality": "USA" }
+      ]
+    },
+    "objectives": [
+      "Perform first human landing on the Moon",
+      "Return lunar samples to Earth"
+    ],
+    "payloads": [],
+    "orbitDetails": { "orbitType": "HEO" },
+    "outcome": {
+      "success": true,
+      "summary": "First successful human landing on the Moon."
+    },
+    "media": {
+      "images": [],
+      "videos": [],
+      "officialWebsite": "https://www.nasa.gov/mission/apollo-11/"
+    }
+  }

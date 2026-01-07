@@ -1,0 +1,43 @@
+{
+    "missionId": "hubble_space_telescope",
+    "missionName": "Hubble Space Telescope",
+    "missionType": "Space Observatory",
+    "category": ["Deep Space & Astronomy", "Scientific Research"],
+    "agency": {
+      "name": "NASA / ESA",
+      "country": "International",
+      "organizationType": "international"
+    },
+    "launch": {
+      "launchDate": "1990-04-24T12:33:51.000Z",
+      "launchVehicle": "Space Shuttle Discovery (STS-31)",
+      "launchSite": "Kennedy Space Center LC-39B",
+      "launchProvider": "NASA"
+    },
+    "missionStatus": "ongoing",
+    "missionTimeline": { "startDate": "1990-04-24T00:00:00.000Z" },
+    "destination": "Low Earth Orbit (LEO)",
+    "spacecraft": {
+      "name": "Hubble",
+      "type": "satellite",
+      "manufacturer": "Lockheed Martin",
+      "massKg": 11110,
+      "powerSource": "solar"
+    },
+    "crew": { "isCrewed": false, "members": [] },
+    "objectives": [
+      "Observe distant galaxies and stars",
+      "Study universe expansion"
+    ],
+    "payloads": [],
+    "orbitDetails": { "orbitType": "LEO" },
+    "outcome": {
+      "success": true,
+      "summary": "One of the most productive scientific instruments ever built."
+    },
+    "media": {
+      "images": [],
+      "videos": [],
+      "officialWebsite": "https://hubblesite.org/"
+    }
+  }

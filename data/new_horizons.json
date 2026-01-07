@@ -1,0 +1,43 @@
+{
+    "missionId": "new_horizons",
+    "missionName": "New Horizons",
+    "missionType": "Flyby",
+    "category": ["Planetary Exploration", "Deep Space & Astronomy"],
+    "agency": {
+      "name": "NASA",
+      "country": "USA",
+      "organizationType": "government"
+    },
+    "launch": {
+      "launchDate": "2006-01-19T19:00:00.000Z",
+      "launchVehicle": "Atlas V 551",
+      "launchSite": "Cape Canaveral SLC-41",
+      "launchProvider": "NASA"
+    },
+    "missionStatus": "ongoing",
+    "missionTimeline": { "startDate": "2006-01-19T00:00:00.000Z" },
+    "destination": "Interplanetary Space",
+    "spacecraft": {
+      "name": "New Horizons Probe",
+      "type": "probe",
+      "manufacturer": "Johns Hopkins APL",
+      "massKg": 478,
+      "powerSource": "nuclear"
+    },
+    "crew": { "isCrewed": false, "members": [] },
+    "objectives": [
+      "Perform first flyby of Pluto",
+      "Study Kuiper Belt objects"
+    ],
+    "payloads": [],
+    "orbitDetails": { "orbitType": "interplanetary" },
+    "outcome": {
+      "success": true,
+      "summary": "Provided first close-up images of Pluto and Kuiper Belt objects."
+    },
+    "media": {
+      "images": [],
+      "videos": [],
+      "officialWebsite": "https://www.nasa.gov/mission/new-horizons/"
+    }
+  }
