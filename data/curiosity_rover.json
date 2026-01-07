@@ -1,0 +1,61 @@
+{
+    "_id": "695e3892417d837ad2b5678e",
+    "missionId": "curiosity_rover",
+    "missionName": "Mars Science Laboratory (Curiosity Rover)",
+    "missionType": "Mars Rover",
+    "category": ["Planetary Exploration", "Astrobiology", "Geology"],
+    "agency": {
+      "name": "NASA",
+      "country": "USA",
+      "organizationType": "government"
+    },
+    "launch": {
+      "launchDate": "2011-11-26T15:02:00.000Z",
+      "launchVehicle": "Atlas V-541",
+      "launchSite": "Cape Canaveral Air Force Station SLC-41",
+      "launchProvider": "United Launch Alliance"
+    },
+    "missionStatus": "ongoing",
+    "missionTimeline": {
+      "startDate": "2011-11-26T00:00:00.000Z",
+      "endDate": null
+    },
+    "destination": "Mars",
+    "spacecraft": {
+      "name": "Curiosity Rover",
+      "type": "rover",
+      "manufacturer": "Jet Propulsion Laboratory (JPL)",
+      "massKg": 899,
+      "powerSource": "nuclear"
+    },
+    "crew": {
+      "isCrewed": false,
+      "members": []
+    },
+    "objectives": [
+      "Assess whether Mars ever had an environment able to support small life forms called microbes",
+      "Determine the nature and inventory of Martian geologic processes",
+      "Investigate the chemical, isotopic, and mineralogical composition of the Martian surface"
+    ],
+    "payloads": [
+        {
+            "name": "Sample Analysis at Mars (SAM)",
+            "type": "instrument",
+            "purpose": "Analyzes organics and gases from both atmospheric and solid samples."
+        }
+    ],
+    "orbitDetails": { "orbitType": "interplanetary" },
+    "budget": {
+      "amount": 2500000000,
+      "currency": "USD"
+    },
+    "outcome": {
+      "success": null,
+      "summary": "Landed successfully in Gale Crater and has been operational for over a decade, making numerous discoveries."
+    },
+    "media": {
+      "images": [],
+      "videos": [],
+      "officialWebsite": "https://mars.nasa.gov/msl/"
+    }
+  }

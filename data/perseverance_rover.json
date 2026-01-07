@@ -1,0 +1,65 @@
+{
+    "_id": "695e3892417d837ad2b5678d",
+    "missionId": "mars_2020_perseverance",
+    "missionName": "Mars 2020 / Perseverance Rover",
+    "missionType": "Mars Rover",
+    "category": ["Planetary Exploration", "Astrobiology", "Robotics"],
+    "agency": {
+      "name": "NASA",
+      "country": "USA",
+      "organizationType": "government"
+    },
+    "launch": {
+      "launchDate": "2020-07-30T11:50:00.000Z",
+      "launchVehicle": "Atlas V-541",
+      "launchSite": "Cape Canaveral Air Force Station SLC-41",
+      "launchProvider": "United Launch Alliance"
+    },
+    "missionStatus": "ongoing",
+    "missionTimeline": {
+      "startDate": "2020-07-30T00:00:00.000Z",
+      "endDate": null
+    },
+    "destination": "Mars",
+    "spacecraft": {
+      "name": "Perseverance Rover",
+      "type": "rover",
+      "manufacturer": "Jet Propulsion Laboratory (JPL)",
+      "massKg": 1025,
+      "powerSource": "nuclear"
+    },
+    "crew": {
+      "isCrewed": false,
+      "members": []
+    },
+    "objectives": [
+      "Seek signs of ancient life and collect rock and soil samples for possible return to Earth",
+      "Demonstrate technology for future robotic and human exploration of Mars"
+    ],
+    "payloads": [
+        {
+            "name": "Ingenuity Helicopter",
+            "type": "instrument",
+            "purpose": "Technology demonstration of powered flight on another planet"
+        },
+        {
+            "name": "MOXIE",
+            "type": "instrument",
+            "purpose": "Produce oxygen from the Martian carbon-dioxide atmosphere"
+        }
+    ],
+    "orbitDetails": { "orbitType": "interplanetary" },
+    "budget": {
+      "amount": 2700000000,
+      "currency": "USD"
+    },
+    "outcome": {
+      "success": null,
+      "summary": "Successfully landed on Mars and is actively conducting its science mission."
+    },
+    "media": {
+      "images": [],
+      "videos": [],
+      "officialWebsite": "https://mars.nasa.gov/mars2020/"
+    }
+  }

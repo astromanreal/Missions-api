@@ -1,0 +1,43 @@
+{
+  "missionId": "mars_orbiter_mission",
+  "missionName": "Mars Orbiter Mission (Mangalyaan)",
+  "missionType": "Orbiter",
+  "agency": {
+    "name": "Indian Space Research Organisation (ISRO)",
+    "country": "India",
+    "organizationType": "government"
+  },
+  "launch": {
+    "launchDate": "2013-11-05T09:08:00Z",
+    "launchVehicle": "PSLV-XL C25",
+    "launchSite": "Satish Dhawan Space Centre"
+  },
+  "missionStatus": "completed",
+  "missionTimeline": {
+    "startDate": "2013-11-05",
+    "endDate": "2022-10-02"
+  },
+  "destination": "Mars",
+  "spacecraft": {
+    "name": "Mars Orbiter Mission Spacecraft",
+    "type": "satellite"
+  },
+  "objectives": [
+    "To develop the technologies required for designing, planning, managing and operations of an interplanetary mission.",
+    "To explore Mars' surface features, morphology, mineralogy and Martian atmosphere using indigenous scientific instruments."
+  ],
+  "payloads": [
+    {
+      "name": "Mars Color Camera (MCC)",
+      "type": "instrument",
+      "purpose": "To provide images and information about the surface features and composition of Martian surface."
+    }
+  ],
+  "outcome": {
+    "success": true,
+    "summary": "Made India the first Asian nation to reach Martian orbit and the first nation in the world to do so in its maiden attempt. The mission ended after the spacecraft ran out of fuel and battery power."
+  },
+  "media": {
+    "officialWebsite": "https://www.isro.gov.in/mars-orbiter-mission.html"
+  }
+}

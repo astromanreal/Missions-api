@@ -1,0 +1,72 @@
+{
+    "_id": "695e3892417d837ad2b5679a",
+    "missionId": "mars_express",
+    "missionName": "Mars Express",
+    "missionType": "Mars Orbiter",
+    "category": ["Planetary Science", "Geology"],
+    "agency": {
+      "name": "ESA (European Space Agency)",
+      "country": "Europe",
+      "organizationType": "international"
+    },
+    "launch": {
+      "launchDate": "2003-06-02T17:45:00.000Z",
+      "launchVehicle": "Soyuz-FG/Fregat",
+      "launchSite": "Baikonur Cosmodrome",
+      "launchProvider": "Starsem"
+    },
+    "missionStatus": "ongoing",
+    "missionTimeline": {
+      "startDate": "2003-06-02T00:00:00.000Z",
+      "endDate": null
+    },
+    "destination": "Mars",
+    "spacecraft": {
+      "name": "Mars Express Orbiter",
+      "type": "satellite",
+      "manufacturer": "EADS Astrium Satellites",
+      "massKg": 1123,
+      "powerSource": "solar"
+    },
+    "crew": {
+      "isCrewed": false,
+      "members": []
+    },
+    "objectives": [
+      "Global high-resolution photogeology of Mars",
+      "Mineralogical mapping of the Martian surface",
+      "Study the composition and circulation of the Martian atmosphere",
+      "Investigate the Martian subsurface structure"
+    ],
+    "payloads": [
+        {
+            "name": "High Resolution Stereo Camera (HRSC)",
+            "type": "instrument",
+            "purpose": "Images the surface in high resolution, 3D color."
+        },
+        {
+            "name": "Mars Advanced Radar for Subsurface and Ionosphere Sounding (MARSIS)",
+            "type": "instrument",
+            "purpose": "Probes the subsurface to look for water and ice."
+        }
+    ],
+    "orbitDetails": {
+        "orbitType": "HEO",
+        "apoapsisKm": 10107,
+        "periapsisKm": 330,
+        "inclinationDeg": 86
+     },
+    "budget": {
+      "amount": 150000000,
+      "currency": "EUR"
+    },
+    "outcome": {
+      "success": null,
+      "summary": "One of the most successful missions ever sent to Mars, providing long-term observations of the planet."
+    },
+    "media": {
+      "images": [],
+      "videos": [],
+      "officialWebsite": "https://www.esa.int/Science_Exploration/Space_Science/Mars_Express"
+    }
+  }

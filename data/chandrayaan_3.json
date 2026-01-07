@@ -1,0 +1,48 @@
+{
+  "missionId": "chandrayaan_3",
+  "missionName": "Chandrayaan-3",
+  "missionType": "Lander, Rover",
+  "agency": {
+    "name": "Indian Space Research Organisation (ISRO)",
+    "country": "India",
+    "organizationType": "government"
+  },
+  "launch": {
+    "launchDate": "2023-07-14T09:05:00Z",
+    "launchVehicle": "LVM3-M4",
+    "launchSite": "Satish Dhawan Space Centre"
+  },
+  "missionStatus": "completed",
+  "missionTimeline": {
+    "startDate": "2023-07-14"
+  },
+  "destination": "Moon",
+  "spacecraft": {
+    "name": "Vikram-2 Lander, Pragyan-2 Rover",
+    "type": "lander"
+  },
+  "objectives": [
+    "To demonstrate a safe and soft landing on the lunar surface.",
+    "To demonstrate rover roving on the Moon.",
+    "To conduct in-situ scientific experiments."
+  ],
+  "payloads": [
+    {
+      "name": "Chandra’s Surface Thermophysical Experiment (ChaSTE)",
+      "type": "instrument",
+      "purpose": "To measure the thermal properties of the lunar surface."
+    },
+    {
+      "name": "Instrument for Lunar Seismic Activity (ILSA)",
+      "type": "instrument",
+      "purpose": "To measure seismicity around the landing site."
+    }
+  ],
+  "outcome": {
+    "success": true,
+    "summary": "Successfully soft-landed on the lunar south pole, making India the fourth country to achieve a lunar landing and the first to land near the south pole. The rover was deployed and conducted experiments for one lunar day."
+  },
+  "media": {
+    "officialWebsite": "https://www.isro.gov.in/chandrayaan-3.html"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "missionId": "luna_25",
+  "missionName": "Luna 25",
+  "missionType": "Lander",
+  "agency": {
+    "name": "Roscosmos",
+    "country": "Russia",
+    "organizationType": "government"
+  },
+  "launch": {
+    "launchDate": "2023-08-10T23:10:00Z",
+    "launchVehicle": "Soyuz-2.1b",
+    "launchSite": "Vostochny Cosmodrome"
+  },
+  "missionStatus": "failed",
+  "missionTimeline": {
+    "startDate": "2023-08-10",
+    "endDate": "2023-08-19"
+  },
+  "destination": "Moon",
+  "spacecraft": {
+    "name": "Luna-25 Lander",
+    "type": "lander"
+  },
+  "objectives": [
+    "To study the composition of the lunar polar regolith.",
+    "To study the plasma and dust components of the lunar polar exosphere."
+  ],
+  "outcome": {
+    "success": false,
+    "summary": "The spacecraft crashed into the Moon's surface after an unsuccessful orbital maneuver."
+  },
+  "media": {
+    "officialWebsite": "https://www.roscosmos.ru/39100/"
+  }
+}
