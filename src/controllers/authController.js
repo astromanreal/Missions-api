@@ -77,9 +77,30 @@ const verifyOTP = async (req, res) => {
 
     await user.save();
 
+    // Fire and forget the welcome email
+    try {
+      await sendEmail({
+        type: 'welcome',
+        email: user.email,
+        subject: `Welcome to the Crew, ${user.username}! `,
+        context: {
+          username: user.username,
+          websiteLink: 'https://astro-missions.vercel.app/',
+        },
+      });
+    } catch (emailErr) {
+      // If the welcome email fails, we don't want to block the user's login.
+      // We just log the error for debugging purposes.
+      console.error('Failed to send welcome email:', emailErr.message);
+    }
+
     const payload = { user: { id: user.id } };
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
-      if (err) throw err;
+      if (err) {
+        console.error('JWT signing error:', err.message);
+        // The user is verified, but we failed to create a token. Inform them.
+        return res.status(500).json({ error: 'Account verified, but failed to create a session. Please try logging in.' });
+      }
       res.json({ token });
     });
 
