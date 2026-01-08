@@ -143,7 +143,11 @@ const MissionSchema = new mongoose.Schema({
   createdByUserId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User'
-  }
+  },
+  trackedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
 }, {
   timestamps: true
 });

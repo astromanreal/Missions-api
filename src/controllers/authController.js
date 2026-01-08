@@ -142,7 +142,7 @@ const login = async (req, res) => {
 
 const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id).select('-password').populate('trackedMissions');
     res.json(user);
   } catch (err) {
     console.error('GetMe error:', err.message);
