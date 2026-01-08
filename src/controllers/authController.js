@@ -152,7 +152,7 @@ const getMe = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select('-password -otp -otpExpires');
+    const user = await User.findById(req.params.id).select('-password -otp -otpExpires').populate('trackedMissions');
     if (!user) {
       return res.status(404).json({ error: 'This user profile could not be found.' });
     }
