@@ -12,23 +12,25 @@ export const getMissions = async (req, res, next) => {
     // Copy req.query
     const reqQuery = { ...req.query };
 
-    // Fields to exclude
+    // Fields to exclude from the initial query object that are handled separately
     const removeFields = ['select', 'sort', 'page', 'limit', 'search'];
 
-    // Loop over removeFields and delete them from reqQuery
+    // Delete special handling fields from reqQuery
     removeFields.forEach(param => delete reqQuery[param]);
-
-    // Create query string
+    
+    // Create query string for advanced operators like $gt, $in, etc.
     let queryStr = JSON.stringify(reqQuery);
-
-    // Create operators ($gt, $gte, etc)
-    queryStr = queryStr.replace(/(gt|gte|lt|lte|in)/g, match => `$${match}`);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
     
     let queryObj = JSON.parse(queryStr);
 
-    // Handle single-field filters (status, destination)
+    // --- BUG FIX STARTS HERE ---
+    // Handle specific filters and remove them from the query object
+    // to prevent searching on the wrong field names.
+
     if (req.query.status) {
       queryObj.missionStatus = req.query.status;
+      delete queryObj.status; // Remove the original 'status' key
     }
     if (req.query.destination) {
       queryObj.destination = req.query.destination;
@@ -36,11 +38,14 @@ export const getMissions = async (req, res, next) => {
     if (req.query.category) {
       queryObj.category = req.query.category;
     }
-    
-    // Handle nested field filter (owner)
+    if (req.query.missionType) {
+      queryObj.missionType = req.query.missionType;
+    }
     if (req.query.owner) {
       queryObj['agency.name'] = req.query.owner;
+      delete queryObj.owner; // Remove the original 'owner' key
     }
+    // --- BUG FIX ENDS HERE ---
 
     // Text Search (on missionName and objectives)
     if (req.query.search) {
@@ -62,6 +67,7 @@ export const getMissions = async (req, res, next) => {
     // Sort
     if (req.query.sort) {
       const sortBy = req.query.sort.split(',').join(' ');
+      // Handle sorting by launchDate, which is nested
       if (sortBy.includes('launchDate')) {
           const sortOrder = sortBy.startsWith('-') ? -1 : 1;
           query = query.sort({ 'launch.launchDate': sortOrder });
@@ -69,6 +75,7 @@ export const getMissions = async (req, res, next) => {
           query = query.sort(sortBy);
       }
     } else {
+      // Default sort
       query = query.sort({ 'launch.launchDate': -1 });
     }
 
@@ -178,6 +185,7 @@ export const getMissionFilters = async (req, res, next) => {
     const statuses = await Mission.distinct('missionStatus');
     const owners = await Mission.distinct('agency.name');
     const categories = await Mission.distinct('category');
+    const missionTypes = await Mission.distinct('missionType');
 
     // Filter out any null or empty string values that might be in the DB
     const clean = (arr) => arr.filter(item => item);
@@ -188,7 +196,8 @@ export const getMissionFilters = async (req, res, next) => {
         destinations: clean(destinations),
         statuses: clean(statuses),
         owners: clean(owners),
-        categories: clean(categories)
+        categories: clean(categories),
+        missionTypes: clean(missionTypes)
       }
     });
   } catch (err) {
