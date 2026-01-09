@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
@@ -6,6 +7,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
     trim: true,
+    lowercase: true, // Ensures usernames are case-insensitive
   },
   name: {
     type: String,

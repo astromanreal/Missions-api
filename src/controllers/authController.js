@@ -1,3 +1,4 @@
+
 import User from '../models/User.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -12,7 +13,8 @@ const generateUniqueUsername = async () => {
         const baseName = spaceUsernames[Math.floor(Math.random() * spaceUsernames.length)];
         const randomNumber = Math.floor(100 + Math.random() * 900);
         username = `${baseName}${randomNumber}`;
-        const existingUser = await User.findOne({ username });
+        // The username will be lowercased automatically by the schema, so we check the lowercase version
+        const existingUser = await User.findOne({ username: username.toLowerCase() });
         if (!existingUser) {
             isUnique = true;
         }
@@ -24,7 +26,9 @@ const register = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    // Email is case-insensitive by standard, but we ensure it here
+    const lowercasedEmail = email.toLowerCase();
+    let user = await User.findOne({ email: lowercasedEmail });
     if (user) {
       return res.status(400).json({ error: 'An account with this email already exists.' });
     }
@@ -33,7 +37,7 @@ const register = async (req, res) => {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-    user = new User({ username, email, password, otp, otpExpires });
+    user = new User({ username, email: lowercasedEmail, password, otp, otpExpires });
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
@@ -62,7 +66,7 @@ const verifyOTP = async (req, res) => {
   const { email, otp } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return res.status(404).json({ error: 'No user found for this email. Please register first.' });
     }
@@ -77,7 +81,6 @@ const verifyOTP = async (req, res) => {
 
     await user.save();
 
-    // Fire and forget the welcome email
     try {
       await sendEmail({
         type: 'welcome',
@@ -89,8 +92,6 @@ const verifyOTP = async (req, res) => {
         },
       });
     } catch (emailErr) {
-      // If the welcome email fails, we don't want to block the user's login.
-      // We just log the error for debugging purposes.
       console.error('Failed to send welcome email:', emailErr.message);
     }
 
@@ -98,7 +99,6 @@ const verifyOTP = async (req, res) => {
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
       if (err) {
         console.error('JWT signing error:', err.message);
-        // The user is verified, but we failed to create a token. Inform them.
         return res.status(500).json({ error: 'Account verified, but failed to create a session. Please try logging in.' });
       }
       res.json({ token });
@@ -114,7 +114,7 @@ const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return res.status(400).json({ error: 'The email or password you entered is incorrect.' });
     }
@@ -182,7 +182,7 @@ const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return res.status(404).json({ error: 'No account is associated with this email address.' });
     }
@@ -216,7 +216,7 @@ const resetPassword = async (req, res) => {
   const { email, otp, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email.toLowerCase() });
     if (!user) {
       return res.status(404).json({ error: 'No account is associated with this email address.' });
     }
@@ -245,9 +245,10 @@ const updateMe = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    // Check if the new username is already taken by another user
     if (username) {
-      const existingUser = await User.findOne({ username, _id: { $ne: userId } });
+      // Convert the desired new username to lowercase for the check
+      const lowercasedUsername = username.toLowerCase();
+      const existingUser = await User.findOne({ username: lowercasedUsername, _id: { $ne: userId } });
       if (existingUser) {
         return res.status(400).json({ error: 'This username is already taken. Please choose another.' });
       }
@@ -259,14 +260,13 @@ const updateMe = async (req, res) => {
       return res.status(404).json({ error: 'User not found.' });
     }
 
-    // Update the fields
+    // The `lowercase: true` in the schema will handle the final conversion
     user.username = username || user.username;
     user.name = name || user.name;
     user.bio = bio || user.bio;
 
     await user.save();
 
-    // Return the updated user, excluding the password
     const updatedUser = await User.findById(userId).select('-password');
     res.json(updatedUser);
 
@@ -292,12 +292,10 @@ const followUser = async (req, res) => {
     const isFollowing = currentUser.following.includes(req.params.id);
 
     if (isFollowing) {
-      // Unfollow
       await User.findByIdAndUpdate(req.user.id, { $pull: { following: req.params.id } });
       await User.findByIdAndUpdate(req.params.id, { $pull: { followers: req.user.id } });
       res.json({ msg: 'User unfollowed successfully.' });
     } else {
-      // Follow
       await User.findByIdAndUpdate(req.user.id, { $addToSet: { following: req.params.id } });
       await User.findByIdAndUpdate(req.params.id, { $addToSet: { followers: req.user.id } });
       res.json({ msg: 'User followed successfully.' });
