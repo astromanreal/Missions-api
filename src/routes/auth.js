@@ -11,7 +11,7 @@ router.post('/forgot-password', forgotPassword);
 router.post('/reset-password', resetPassword);
 router.get('/me', protect, getMe);
 router.put('/me', protect, updateMe);
-router.get('/user/:id', getUser);
+router.get('/user/:username', getUser);
 router.post('/logout', protect, logout);
 router.post('/user/:id/follow', protect, followUser);
 

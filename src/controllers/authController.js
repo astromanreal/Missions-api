@@ -156,7 +156,7 @@ const getMe = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id)
+    const user = await User.findOne({ username: req.params.username })
       .select('-password -otp -otpExpires')
       .populate('trackedMissions')
       .populate('followers', 'username name')
@@ -167,9 +167,6 @@ const getUser = async (req, res) => {
     res.json(user);
   } catch (err) {
     console.error('GetUser error:', err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ error: 'This user profile could not be found.' });
-    }
     res.status(500).json({ error: 'An unexpected server error occurred while fetching the user profile.' });
   }
 };
