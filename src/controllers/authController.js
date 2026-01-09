@@ -243,7 +243,11 @@ const updateMe = async (req, res) => {
 
   try {
     if (username) {
-      // Convert the desired new username to lowercase for the check
+      const usernameRegex = /^[a-z0-9]+$/;
+      if (!usernameRegex.test(username)) {
+        return res.status(400).json({ error: 'Username can only contain lowercase letters and numbers.' });
+      }
+
       const lowercasedUsername = username.toLowerCase();
       const existingUser = await User.findOne({ username: lowercasedUsername, _id: { $ne: userId } });
       if (existingUser) {
@@ -257,7 +261,6 @@ const updateMe = async (req, res) => {
       return res.status(404).json({ error: 'User not found.' });
     }
 
-    // The `lowercase: true` in the schema will handle the final conversion
     user.username = username || user.username;
     user.name = name || user.name;
     user.bio = bio || user.bio;
@@ -269,6 +272,9 @@ const updateMe = async (req, res) => {
 
   } catch (err) {
     console.error('UpdateMe error:', err.message);
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({ error: err.message });
+    }
     res.status(500).json({ error: 'An unexpected server error occurred while updating your profile.' });
   }
 };

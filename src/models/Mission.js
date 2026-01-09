@@ -1,4 +1,17 @@
+
 import mongoose from 'mongoose';
+
+// Function to generate a URL-friendly slug
+const generateSlug = (name) => {
+  return name
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
+};
 
 const AgencySchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -92,6 +105,11 @@ const MissionSchema = new mongoose.Schema({
     required: true, 
     trim: true 
   },
+  slug: {
+    type: String,
+    unique: true,
+    lowercase: true,
+  },
   missionType: String,
   category: [String],
   agency: AgencySchema,
@@ -150,6 +168,22 @@ const MissionSchema = new mongoose.Schema({
   }]
 }, {
   timestamps: true
+});
+
+// Pre-save middleware to auto-generate a unique slug
+MissionSchema.pre('save', async function() {
+  if (this.isModified('missionName') || this.isNew) {
+    let baseSlug = generateSlug(this.missionName);
+    let slug = baseSlug;
+    let counter = 1;
+    
+    // Ensure slug is unique by appending a number if necessary
+    while (await this.constructor.findOne({ slug })) {
+      slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
+    this.slug = slug;
+  }
 });
 
 const Mission = mongoose.model('Mission', MissionSchema);

@@ -119,11 +119,11 @@ export const getMissions = async (req, res, next) => {
 };
 
 // @desc    Get single mission
-// @route   GET /api/v1/missions/:id
+// @route   GET /api/v1/missions/:slug
 // @access  Public
 export const getMission = async (req, res, next) => {
   try {
-    const mission = await Mission.findById(req.params.id).populate('trackedBy', 'username name');
+    const mission = await Mission.findOne({ slug: req.params.slug }).populate('trackedBy', 'username name');
 
     if (!mission) {
       return next(new ErrorResponse('Mission not found', 404));

@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route('/').get(getMissions);
 router.route('/filters').get(getMissionFilters);
-router.route('/:id').get(getMission);
+router.route('/:slug').get(getMission);
 router.route('/:id/track').post(protect, trackMission);
 
 export default router;

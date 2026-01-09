@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     lowercase: true, // Ensures usernames are case-insensitive
+    match: [/^[a-z0-9]+$/, 'Username can only contain lowercase letters and numbers.'],
   },
   name: {
     type: String,
