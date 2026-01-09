@@ -142,7 +142,11 @@ const login = async (req, res) => {
 
 const getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password').populate('trackedMissions');
+    const user = await User.findById(req.user.id)
+      .select('-password')
+      .populate('trackedMissions')
+      .populate('followers', 'username name')
+      .populate('following', 'username name');
     res.json(user);
   } catch (err) {
     console.error('GetMe error:', err.message);
@@ -152,7 +156,11 @@ const getMe = async (req, res) => {
 
 const getUser = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id).select('-password -otp -otpExpires').populate('trackedMissions');
+    const user = await User.findById(req.params.id)
+      .select('-password -otp -otpExpires')
+      .populate('trackedMissions')
+      .populate('followers', 'username name')
+      .populate('following', 'username name');
     if (!user) {
       return res.status(404).json({ error: 'This user profile could not be found.' });
     }
@@ -268,4 +276,36 @@ const updateMe = async (req, res) => {
   }
 };
 
-export { register, login, getMe, verifyOTP, getUser, logout, forgotPassword, resetPassword, updateMe };
+const followUser = async (req, res) => {
+  try {
+    const userToFollow = await User.findById(req.params.id);
+    const currentUser = await User.findById(req.user.id);
+
+    if (!userToFollow || !currentUser) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    if (req.params.id === req.user.id) {
+      return res.status(400).json({ error: 'You cannot follow yourself.' });
+    }
+
+    const isFollowing = currentUser.following.includes(req.params.id);
+
+    if (isFollowing) {
+      // Unfollow
+      await User.findByIdAndUpdate(req.user.id, { $pull: { following: req.params.id } });
+      await User.findByIdAndUpdate(req.params.id, { $pull: { followers: req.user.id } });
+      res.json({ msg: 'User unfollowed successfully.' });
+    } else {
+      // Follow
+      await User.findByIdAndUpdate(req.user.id, { $addToSet: { following: req.params.id } });
+      await User.findByIdAndUpdate(req.params.id, { $addToSet: { followers: req.user.id } });
+      res.json({ msg: 'User followed successfully.' });
+    }
+  } catch (err) {
+    console.error('Follow/Unfollow error:', err.message);
+    res.status(500).json({ error: 'An unexpected server error occurred.' });
+  }
+};
+
+export { register, login, getMe, verifyOTP, getUser, logout, forgotPassword, resetPassword, updateMe, followUser };

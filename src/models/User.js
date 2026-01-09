@@ -37,7 +37,19 @@ const UserSchema = new mongoose.Schema({
   trackedMissions: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Mission'
-  }]
+  }],
+  following: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  followers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 const User = mongoose.model('User', UserSchema);
