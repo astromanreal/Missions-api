@@ -1,7 +1,7 @@
-import asyncHandler from '../middleware/asyncHandler.js';
-import ErrorResponse from '../utils/errorResponse.js';
-import Mission from '../models/Mission.js';
-import MissionUpdate from '../models/MissionUpdate.js';
+import asyncHandler from "../middleware/asyncHandler.js";
+import ErrorResponse from "../utils/errorResponse.js";
+import Mission from "../models/Mission.js";
+import MissionUpdate from "../models/MissionUpdate.js";
 
 /**
  * @desc    Add a new mission update (for a logged-in user)
@@ -12,7 +12,12 @@ export const addMissionUpdate = asyncHandler(async (req, res, next) => {
   const mission = await Mission.findOne({ slug: req.params.slug });
 
   if (!mission) {
-    return next(new ErrorResponse(`Mission not found with slug of ${req.params.slug}`, 404));
+    return next(
+      new ErrorResponse(
+        `Mission not found with slug of ${req.params.slug}`,
+        404
+      )
+    );
   }
 
   req.body.mission = mission._id;
@@ -35,15 +40,20 @@ export const getMissionUpdates = asyncHandler(async (req, res, next) => {
   const mission = await Mission.findOne({ slug: req.params.slug });
 
   if (!mission) {
-    return next(new ErrorResponse(`Mission not found with slug of ${req.params.slug}`, 404));
+    return next(
+      new ErrorResponse(
+        `Mission not found with slug of ${req.params.slug}`,
+        404
+      )
+    );
   }
 
-  const updates = await MissionUpdate.find({ 
-    mission: mission._id, 
-    status: 'approved' 
+  const updates = await MissionUpdate.find({
+    mission: mission._id,
+    status: "approved",
   })
-  .populate('author', 'username name')
-  .sort({ createdAt: -1 });
+    .populate("author", "username name")
+    .sort({ createdAt: -1 });
 
   res.status(200).json({
     success: true,
