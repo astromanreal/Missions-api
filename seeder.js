@@ -10,6 +10,7 @@ dotenv.config();
 
 // Load models
 import Mission from './src/models/Mission.js';
+import User from './src/models/User.js'; // Import the User model
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI);
@@ -31,7 +32,6 @@ const readMissions = () => {
       try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         const missionData = JSON.parse(fileContent);
-        // If the file contains an array, add its elements to the missions list
         if (Array.isArray(missionData)) {
           missions.push(...missionData);
         } else {
@@ -44,7 +44,6 @@ const readMissions = () => {
   }
   return missions;
 };
-
 
 // Import into DB (Deletes existing data)
 const importData = async () => {
@@ -77,8 +76,8 @@ const upsertData = async () => {
             continue;
         }
       await Mission.findOneAndUpdate({ missionId: mission.missionId }, mission, {
-        upsert: true, // Creates the doc if it doesn't exist
-        new: true, // Returns the new doc if created
+        upsert: true,
+        new: true,
         runValidators: true,
       });
     }
@@ -100,10 +99,38 @@ const deleteData = async () => {
   }
 };
 
+// Grant admin role to a user
+const makeAdmin = async () => {
+  const email = process.argv[3];
+  if (!email) {
+    console.error('Please provide a user email.'.red);
+    process.exit(1);
+  }
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      console.error(`User with email "${email}" not found.`.red);
+      process.exit(1);
+    }
+
+    user.role = 'admin';
+    await user.save();
+
+    console.log(`User ${user.username} (${email}) has been granted admin privileges.`.green.inverse);
+    process.exit();
+  } catch (err) {
+    console.error('Error granting admin role:'.red, err);
+    process.exit(1);
+  }
+};
+
+
 if (process.argv[2] === '-i') {
   importData();
 } else if (process.argv[2] === '-u') {
   upsertData();
 } else if (process.argv[2] === '-d') {
   deleteData();
+} else if (process.argv[2] === '--make-admin') {
+  makeAdmin();
 }

@@ -4,6 +4,8 @@ import cors from 'cors'; // Import the cors package
 import connectDB from './config/database.js';
 import authRoutes from './routes/auth.js';
 import missionRoutes from './routes/missions.js';
+import updateRoutes from './routes/updates.js';
+import adminRoutes from './routes/admin.js';
 
 dotenv.config({ quiet: true });
 
@@ -27,6 +29,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/v1/missions', missionRoutes);
+app.use('/api/v1/missions/:slug/updates', updateRoutes)
+app.use('/api/v1/admin', adminRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
