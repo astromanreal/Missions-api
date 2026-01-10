@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js'; // Import the User model
+import User from '../models/User.js';
 import ErrorResponse from '../utils/errorResponse.js';
 
 const protect = async (req, res, next) => {
@@ -20,8 +20,8 @@ const protect = async (req, res, next) => {
     // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Attach user to the request
-    req.user = await User.findById(decoded.id).select('-password');
+    // Attach user to the request by finding them in the database
+    req.user = await User.findById(decoded.user.id).select('-password');
 
     if (!req.user) {
         return next(new ErrorResponse('No user found with this id', 404));
