@@ -1,27 +1,35 @@
 import jwt from 'jsonwebtoken';
+import User from '../models/User.js'; // Import the User model
+import ErrorResponse from '../utils/errorResponse.js';
 
-const protect = (req, res, next) => {
-  // Get token from the Authorization header
-  const authHeader = req.header('Authorization');
+const protect = async (req, res, next) => {
+  let token;
 
-  // Check if the header exists and is in the correct format ('Bearer <token>')
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'No token, authorization denied' });
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return next(new ErrorResponse('Not authorized to access this route', 401));
   }
 
   try {
-    // Extract the token from the 'Bearer <token>' string
-    const token = authHeader.split(' ')[1];
-
-    // Verify the token
+    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Attach the user payload to the request object
-    req.user = decoded.user;
+    // Attach user to the request
+    req.user = await User.findById(decoded.id).select('-password');
+
+    if (!req.user) {
+        return next(new ErrorResponse('No user found with this id', 404));
+    }
+
     next();
   } catch (err) {
-    // This will catch invalid or expired tokens
-    res.status(401).json({ error: 'Token is not valid' });
+    return next(new ErrorResponse('Not authorized to access this route', 401));
   }
 };
 
