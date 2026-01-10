@@ -1,28 +1,37 @@
 import jwt from 'jsonwebtoken';
+import ErrorResponse from '../utils/errorResponse.js';
+import asyncHandler from './asyncHandler.js';
+import User from '../models/User.js';
 
-const protect = (req, res, next) => {
-  // Get token from the Authorization header
-  const authHeader = req.header('Authorization');
+// Protect routes
+export const protect = asyncHandler(async (req, res, next) => {
+  let token;
 
-  // Check if the header exists and is in the correct format ('Bearer <token>')
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'No token, authorization denied' });
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    // Set token from Bearer token in header
+    token = req.headers.authorization.split(' ')[1];
+  } 
+  // else if (req.cookies.token) {
+  //   // Set token from cookie
+  //   token = req.cookies.token;
+  // }
+
+  // Make sure token exists
+  if (!token) {
+    return next(new ErrorResponse('Not authorized to access this route', 401));
   }
 
   try {
-    // Extract the token from the 'Bearer <token>' string
-    const token = authHeader.split(' ')[1];
-
-    // Verify the token
+    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Attach the user payload to the request object
-    req.user = decoded.user;
+    req.user = await User.findById(decoded.id);
+
     next();
   } catch (err) {
-    // This will catch invalid or expired tokens
-    res.status(401).json({ error: 'Token is not valid' });
+    return next(new ErrorResponse('Not authorized to access this route', 401));
   }
-};
-
-export { protect };
+});
