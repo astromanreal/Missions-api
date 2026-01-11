@@ -33,6 +33,10 @@ const MissionUpdateSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  likes: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  }],
   createdAt: {
     type: Date,
     default: Date.now,
