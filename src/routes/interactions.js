@@ -8,10 +8,13 @@ import {
 
 import { protect } from '../middleware/auth.js';
 
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 
-router.route('/like').post(protect, likeMissionUpdate);
-router.route('/comments').get(getCommentsForUpdate).post(protect, addComment);
+// Routes for actions on a specific Mission Update
+router.route('/updates/:id/like').post(protect, likeMissionUpdate);
+router.route('/updates/:id/comments').get(getCommentsForUpdate).post(protect, addComment);
+
+// Route for actions on a specific Comment
 router.route('/comments/:id').delete(protect, deleteComment);
 
 export default router;

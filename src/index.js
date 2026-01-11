@@ -31,8 +31,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/v1/missions', missionRoutes);
-app.use('/api/v1/updates', interactionRoutes); // Route for likes and comments
 app.use('/api/v1/missions/:slug/updates', updateRoutes);
+app.use('/api/v1', interactionRoutes); // Mount interaction routes at /api/v1
 app.use('/api/v1/admin', adminRoutes);
 
 // Use the error handler
