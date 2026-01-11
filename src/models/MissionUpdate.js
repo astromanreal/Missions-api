@@ -10,6 +10,14 @@ const MissionUpdateSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please add content'],
   },
+  referenceLink: {
+    type: String,
+    required: [true, 'Please provide an official reference link'],
+    match: [
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/,
+      'Please use a valid URL with HTTP or HTTPS'
+    ]
+  },
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected'],
