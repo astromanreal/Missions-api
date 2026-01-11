@@ -102,7 +102,7 @@ export const deleteMissionUpdate = asyncHandler(async (req, res, next) => {
   // A user can delete their own update regardless of its status.
   // The status check has been removed.
 
-  await update.remove();
+  await update.deleteOne();
 
   res.status(200).json({ success: true, data: {} });
 });
