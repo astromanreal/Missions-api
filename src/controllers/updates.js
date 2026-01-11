@@ -69,9 +69,9 @@ export const updateMissionUpdate = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`User not authorized to update this mission update`, 401));
   }
 
-  // Make sure update is pending
-  if (update.status !== 'pending') {
-      return next(new ErrorResponse(`Cannot edit an update that has already been reviewed`, 400));
+  // Prevent editing of an already approved update
+  if (update.status === 'approved') {
+      return next(new ErrorResponse(`Cannot edit an update that has already been approved`, 400));
   }
 
   update = await MissionUpdate.findByIdAndUpdate(req.params.id, req.body, {
@@ -99,10 +99,8 @@ export const deleteMissionUpdate = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse(`User not authorized to delete this mission update`, 401));
   }
 
-  // Make sure update is pending
-  if (update.status !== 'pending') {
-      return next(new ErrorResponse(`Cannot delete an update that has already been reviewed`, 400));
-  }
+  // A user can delete their own update regardless of its status.
+  // The status check has been removed.
 
   await update.remove();
 
