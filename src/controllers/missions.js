@@ -204,3 +204,33 @@ export const getMissionFilters = async (req, res, next) => {
     next(err);
   }
 };
+
+// @desc    Get Mission of the Day
+// @route   GET /api/v1/missions/motd
+// @access  Public
+export const getMissionOfTheDay = async (req, res, next) => {
+  try {
+    const now = new Date();
+    const startOfYear = new Date(now.getFullYear(), 0, 0);
+    const diff = now - startOfYear;
+    const oneDay = 1000 * 60 * 60 * 24;
+    const dayOfYear = Math.floor(diff / oneDay);
+
+    const missionCount = await Mission.countDocuments();
+    
+    if (missionCount === 0) {
+      return next(new ErrorResponse('No missions available in the database.', 404));
+    }
+
+    const missionIndex = (dayOfYear - 1) % missionCount;
+
+    const mission = await Mission.findOne().skip(missionIndex);
+
+    res.status(200).json({
+      success: true,
+      data: mission,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
